@@ -3,8 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes');
+var express = require('express'),
+   routes = require('./routes');
 
 var app = module.exports = express.createServer();
 
@@ -17,6 +17,9 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+  //session
+  app.use(express.cookieDecoder());
+  app.use(express.session());
 });
 
 app.configure('development', function(){
@@ -30,6 +33,11 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', routes.index);
+app.get('/signup', routes.signup);
+app.post('/signup', routes.create_signup);
+app.get('/login', routes.login);
+app.get('/logout', routes.logout);
+app.get('/count/:id', routes.count);
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

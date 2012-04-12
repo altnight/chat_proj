@@ -7,6 +7,7 @@ Node+Redisでチャット的ななにかを作りたい
 ==============
 - Ubuntu 10.10
 - Node v0.6.12
+- node-dev
 - npm 1.1.14
 - Socket.io 0.9.5
 - Express 2.5.9
