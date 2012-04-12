@@ -1,0 +1,20 @@
+{
+  "author": "altnight",
+  "name": "chat_proj",
+  "description": "kusoga",
+  "version": "0.0.0",
+  "repository": {
+    "url": ""
+  },
+  "dependencies": {
+    "express": "*",
+    "jade": "*",
+    "socket.io": "*",
+    "redis" : "*"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
