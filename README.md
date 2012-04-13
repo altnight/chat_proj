@@ -13,3 +13,4 @@ Node+Redisでチャット的ななにかを作りたい
 - Express 2.5.9
   - jade 0.22.1
 - Redis 0.7.1
+  - connect-redis 1.3.0

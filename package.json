@@ -10,7 +10,8 @@
     "express": "*",
     "jade": "*",
     "socket.io": "*",
-    "redis" : "*"
+    "redis" : "*",
+    "connect-redis": "*"
   },
   "devDependencies": {},
   "optionalDependencies": {},
