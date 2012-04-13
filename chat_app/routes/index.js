@@ -12,6 +12,26 @@ exports.signup= function(req, res){
 };
 
 exports.create_signup= function(req, res){
+  if (! /[0-9a-zA-Z\-_]+/.test(req.body.name)){
+    res.send('name は 半角英数で');
+    res.redirect('/signup');
+  }
+  if (req.body.name.length < 8){
+    res.send('name は 8文字以上にしましょう');
+    res.redirect('/signup');
+  }
+  if (! /[0-9a-zA-Z\-_]+/.test(req.body.password)){
+    res.send('password は 半角英数で');
+    res.redirect('/signup');
+  }
+  if (req.body.password.length < 8){
+    res.send('password は 8文字以上にしましょう');
+    res.redirect('/signup');
+  }
+  if (req.body.password != req.body.password2) {
+    res.send('パスワード確認が間違ってるよ');
+    res.redirect('/signup');
+  }
   req.session.name = req.body.name;
   req.session.password = req.body.password;
   req.session.password2 = req.body.password2;
@@ -20,6 +40,13 @@ exports.create_signup= function(req, res){
 
 exports.login= function(req, res){
   res.render('login', { title: 'login' });
+};
+
+exports.create_login= function(req, res){
+  //res.render('login', { title: 'login' });
+  if (req.session.password != req.session.password2)
+    res.sender('differendt password');
+
 };
 
 exports.logout= function(req, res){

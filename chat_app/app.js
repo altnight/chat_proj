@@ -42,6 +42,7 @@ app.get('/', routes.index);
 app.get('/signup', routes.signup);
 app.post('/signup', routes.create_signup);
 app.get('/login', routes.login);
+app.post('/login', routes.create_login);
 app.get('/logout', routes.logout);
 app.get('/count/:id', routes.count);
 
