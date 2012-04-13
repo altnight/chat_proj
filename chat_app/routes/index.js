@@ -4,6 +4,7 @@
  */
 
 exports.index = function(req, res){
+  console.log(req.session);
   res.render('index', { title: 'My Chat' });
 };
 
@@ -13,6 +14,16 @@ exports.signup= function(req, res){
 
 exports.create_signup= function(req, res){
   //res.render('signup', { title: 'signup' });
+  name = req.body.name;
+  password= req.body.password;
+  password2= req.body.password2;
+
+  req.session = {};
+  req.session.name = name;
+  req.session.password = password;
+  req.session.password2 = password2;
+  console.log(req.session);
+  res.redirect('/');
 };
 
 exports.login= function(req, res){

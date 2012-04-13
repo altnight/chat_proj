@@ -4,7 +4,8 @@
  */
 
 var express = require('express'),
-   routes = require('./routes');
+   routes = require('./routes'),
+   RedisStore = require('connect-redis')(express);
 
 var app = module.exports = express.createServer();
 
@@ -15,11 +16,14 @@ app.configure(function(){
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+
+  //session
+  app.use(express.cookieParser());
+  app.use(express.session({secret: 'secret',
+                           store: new RedisStore()}));
+
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
-  //session
-  app.use(express.cookieDecoder());
-  app.use(express.session());
 });
 
 app.configure('development', function(){
