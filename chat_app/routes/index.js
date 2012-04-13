@@ -4,8 +4,7 @@
  */
 
 exports.index = function(req, res){
-  console.log(req.session);
-  res.render('index', { title: 'My Chat' });
+  res.render('index', { title: "Welcome My Chat by " + req.session.name });
 };
 
 exports.signup= function(req, res){
@@ -13,16 +12,9 @@ exports.signup= function(req, res){
 };
 
 exports.create_signup= function(req, res){
-  //res.render('signup', { title: 'signup' });
-  name = req.body.name;
-  password= req.body.password;
-  password2= req.body.password2;
-
-  req.session = {};
-  req.session.name = name;
-  req.session.password = password;
-  req.session.password2 = password2;
-  console.log(req.session);
+  req.session.name = req.body.name;
+  req.session.password = req.body.password;
+  req.session.password2 = req.body.password2;
   res.redirect('/');
 };
 
@@ -31,7 +23,12 @@ exports.login= function(req, res){
 };
 
 exports.logout= function(req, res){
-  res.render('logout', { title: 'logout' });
+  //res.render('logout', { title: 'logout' });
+  delete req.session.name;
+  delete req.session.password;
+  delete req.session.password2;
+  req.session.name = "My Name";
+  res.redirect('/');
 };
 
 exports.count= function(req, res){

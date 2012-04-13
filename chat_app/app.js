@@ -18,9 +18,11 @@ app.configure(function(){
   app.use(express.methodOverride());
 
   //session
+  //new RedisStore()しない？してもいい？
   app.use(express.cookieParser());
-  app.use(express.session({secret: 'secret',
-                           store: new RedisStore()}));
+  app.use(express.session({secret: "secret",
+                           store: new RedisStore(),
+                           cookie: {maxAge: 60 * 60 * 1000}}));
 
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
