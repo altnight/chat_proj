@@ -1,0 +1,10 @@
+h1= title
+p Welcome to #{title}
+for obj in room
+  ul
+    li: (href = '/room/#{obj}') #{obj}
+p
+  form(action = "/roby", method = "POST")
+    label 入室する:
+      input(type = "text", name = "room")
+      input(type = "submit", name = "入室する")

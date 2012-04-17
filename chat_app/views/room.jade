@@ -1,0 +1,9 @@
+h1= title
+p Welcome to #{title}
+for obj in chat
+  p #{obj}
+p
+  form(action = "/room", method = "POST")
+    label 発言する:
+      input(type = "text", name = "chat")
+      input(type = "submit", name = "発言する")

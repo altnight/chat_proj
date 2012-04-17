@@ -44,7 +44,11 @@ app.post('/signup', routes.create_signup);
 app.get('/login', routes.login);
 app.post('/login', routes.create_login);
 app.get('/logout', routes.logout);
-app.get('/count/:id', routes.count);
+app.get('/roby', routes.roby);
+app.post('/roby', routes.create_roby);
+app.get('/room/:id?', routes.room);
+app.post('/room/:id?', routes.create_room);
+//app.get('/count/:id', routes.count);
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

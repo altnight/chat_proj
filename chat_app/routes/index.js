@@ -52,7 +52,6 @@ exports.create_signup= function(req, res){
         redis.set("uid:" + uid + ":password", req.body.password);
       });
     req.session.name = req.body.name;
-    req.session.password = req.body.password;
     res.redirect('/');
     }
   });
@@ -86,11 +85,39 @@ exports.create_login= function(req, res){
 exports.logout= function(req, res){
   //res.render('logout', { title: 'logout' });
   delete req.session.name;
-  delete req.session.password;
+  delete req.session.room;
   res.redirect('/');
 };
 
-exports.count= function(req, res){
-  //res.render('count', { title: 'count' });
-  res.send('user' + req.params.id);
+//exports.count= function(req, res){
+  ////res.render('count', { title: 'count' });
+  //res.send('user' + req.params.id);
+//};
+exports.roby= function(req, res){
+  redis.lrange("room", 0, -1, function(err, room){
+  res.render('roby', { title: 'roby',
+                       room: room });
+  });
+};
+
+exports.create_roby= function(req, res){
+  redis.rpush("room", req.body.room);
+  redis.rpop("room", function(err, latest_room){
+    redis.rpush("room", latest_room);
+    req.session.room = latest_room;
+    res.redirect('/room/' + latest_room);
+  });
+};
+
+exports.room= function(req, res){
+  redis.lrange(req.session.room, 0, -1,function(err, chat){
+    res.render('room', { title: "chat_room",
+                       chat: chat });
+  });
+};
+
+exports.create_room= function(req, res){
+  (req.session.name === undefined) ? name = '増田' : name = req.session.name;
+  redis.rpush(req.session.room, name + ":" + req.body.chat);
+  res.redirect('/room/' + req.session.room);
 };
