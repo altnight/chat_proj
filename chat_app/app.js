@@ -18,7 +18,6 @@ app.configure(function(){
   app.use(express.methodOverride());
 
   //session
-  //new RedisStore()しない？してもいい？
   app.use(express.cookieParser());
   app.use(express.session({secret: "secret",
                            store: new RedisStore(),

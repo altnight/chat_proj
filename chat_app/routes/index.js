@@ -83,7 +83,6 @@ exports.create_login= function(req, res){
 };
 
 exports.logout= function(req, res){
-  //res.render('logout', { title: 'logout' });
   delete req.session.name;
   delete req.session.room;
   res.redirect('/');
@@ -110,14 +109,14 @@ exports.create_roby= function(req, res){
 };
 
 exports.room= function(req, res){
-  redis.lrange(req.session.room, 0, -1,function(err, chat){
+  redis.lrange("room:" + req.params.id, 0, -1,function(err, chat){
     res.render('room', { title: "chat_room",
-                       chat: chat });
+                         chat: chat });
   });
 };
 
 exports.create_room= function(req, res){
   (req.session.name === undefined) ? name = '増田' : name = req.session.name;
-  redis.rpush(req.session.room, name + ":" + req.body.chat);
+  redis.rpush("room:" + req.session.room, name + ":" + req.body.chat);
   res.redirect('/room/' + req.session.room);
 };
