@@ -11,7 +11,8 @@
     "jade": "*",
     "socket.io": "*",
     "redis" : "*",
-    "connect-redis": "*"
+    "connect-redis": "*",
+    "connect" : "*"
   },
   "devDependencies": {},
   "optionalDependencies": {},

@@ -15,3 +15,4 @@ Node+Redisでチャット的ななにかを作りたい
   - jade 0.22.1
 - Redis 0.7.1
   - connect-redis 1.3.0
+- connect 2.1.2

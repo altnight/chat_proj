@@ -100,6 +100,7 @@ exports.roby= function(req, res){
 };
 
 exports.create_roby= function(req, res){
+  if (req.body.room === "") return false;
   redis.rpush("room", req.body.room);
   redis.rpop("room", function(err, latest_room){
     redis.rpush("room", latest_room);
@@ -117,6 +118,7 @@ exports.room= function(req, res){
 
 exports.create_room= function(req, res){
   (req.session.name === undefined) ? name = '増田' : name = req.session.name;
+  if (req.body.chat === "") return false;
   redis.rpush("room:" + req.session.room, name + ":" + req.body.chat);
   res.redirect('/room/' + req.session.room);
 };
