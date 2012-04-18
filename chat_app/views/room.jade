@@ -1,9 +1,12 @@
 script(src = '/socket.io/socket.io.js')
 script
-  var socket = io.connect('http://localhost');
-  socket.on('chat', function(data){
+  var socket = io.connect('http://192.168.56.101');
+  socket.on('connect', function(data){
     console.log(data);
-    socket.emit('msg_push', {my : 'data'});
+    socket.emit('msg_send', 'data');
+    socket.on('chat', function(data){
+      console.log(data);
+    });
   })
 h1= title
 p Welcome to #{title}

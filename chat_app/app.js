@@ -34,10 +34,11 @@ io.configure(function() {
   });
 });
 
-io.on('connection', function (socket){
+io.sockets.on('connection', function (socket){
   console.log("Got connected to server!");
-  io.emit('chat', {my : 'hoge'});
-  io.on("msg_push", function(data){
+  socket.on("msg_send", function(data){
+    socket.emit('chat', 'hoge');
+    socket.broadcast.emit('chat', 'hoge');
     console.log(data);
   });
 });
