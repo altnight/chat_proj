@@ -2,6 +2,7 @@
 /**
  * Module dependencies.
  */
+var redis = require('redis').createClient();
 
 var express = require('express'),
    routes = require('./routes'),
@@ -10,12 +11,14 @@ var express = require('express'),
 //socket.io
 var app = module.exports = express.createServer(),
     io  = require('socket.io').listen(app);
-var parseCookie = require('connect').utils.parseCookie;
-var sessionStore = new RedisStore();
 //http://d.hatena.ne.jp/Jxck/20110730/1312042603
 //http://d.hatena.ne.jp/Jxck/20110809/1312847290
 //http://iamtherockstar.com/blog/2012/02/14/nodejs-and-socketio-authentication-all-way-down/
 //http://jsondata.tumblr.com/post/18513328466/jordanrift
+
+var parseCookie = require('connect').utils.parseCookie;
+var RedisStore = require('connect-redis')(express);
+var sessionStore = new RedisStore();
 io.configure(function() {
   io.set('authorization', function(data, callback) {
     if (data.headers.cookie) {
@@ -34,14 +37,6 @@ io.configure(function() {
   });
 });
 
-io.sockets.on('connection', function (socket){
-  console.log("Got connected to server!");
-  socket.on("msg_send", function(data){
-    socket.emit('chat', 'hoge');
-    socket.broadcast.emit('chat', 'hoge');
-    console.log(data);
-  });
-});
 
 // Configuration
 
@@ -79,7 +74,27 @@ app.post('/login', routes.create_login);
 app.get('/logout', routes.logout);
 app.get('/roby', routes.roby);
 app.post('/roby', routes.create_roby);
-app.get('/room/:id?', routes.room);
+//app.get('/room/:id?', routes.room);
+app.get('/room/:id?', function(req, res){
+  io.sockets.on('connection', function (socket){
+    console.log("Got connected to server!");
+    socket.on("to_server", function(data){
+      redis.rpop("room:" + req.session.room, function(err, latest_chat){
+        if (latest_chat === null) return false;
+        redis.rpush("room:" + req.session.room, latest_chat);
+        socket.emit('to_client', latest_chat);
+        socket.broadcast.emit('to_client', latest_chat);
+      });
+    });
+    socket.on('disconnect', function() {
+      console.log('disconnected');
+    });
+  });
+  redis.lrange("room:" + req.params.id, 0, -1,function(err, chat){
+    res.render('room', { title: "chat_room",
+                         chat: chat });
+  });
+});
 app.post('/room/:id?', routes.create_room);
 //app.get('/count/:id', routes.count);
 

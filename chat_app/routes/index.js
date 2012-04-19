@@ -18,26 +18,26 @@ exports.signup= function(req, res){
 };
 
 exports.create_signup= function(req, res){
-  //if (! /[0-9a-zA-Z\-_]+/.test(req.body.name)){
-    //res.send('name は 半角英数で');
-    //res.redirect('/signup');
-  //}
-  //if (req.body.name.length < 8){
-    //res.send('name は 8文字以上にしましょう');
-    //res.redirect('/signup');
-  //}
-  //if (! /[0-9a-zA-Z\-_]+/.test(req.body.password)){
-    //res.send('password は 半角英数で');
-    //res.redirect('/signup');
-  //}
-  //if (req.body.password.length < 8){
-    //res.send('password は 8文字以上にしましょう');
-    //res.redirect('/signup');
-  //}
-  //if (req.body.password != req.body.password2) {
-    //res.send('パスワード確認が間違ってるよ');
-    //res.redirect('/signup');
-  //}
+  if (! /[0-9a-zA-Z\-_]+/.test(req.body.name)){
+    res.send('name は 半角英数で');
+    res.redirect('/signup');
+  }
+  if (req.body.name.length < 8){
+    res.send('name は 8文字以上にしましょう');
+    res.redirect('/signup');
+  }
+  if (! /[0-9a-zA-Z\-_]+/.test(req.body.password)){
+    res.send('password は 半角英数で');
+    res.redirect('/signup');
+  }
+  if (req.body.password.length < 8){
+    res.send('password は 8文字以上にしましょう');
+    res.redirect('/signup');
+  }
+  if (req.body.password != req.body.password2) {
+    res.send('パスワード確認が間違ってるよ');
+    res.redirect('/signup');
+  }
 
   redis.get("name:" + req.body.name + ":uid", function(err, uid){
     if (uid){
@@ -109,16 +109,16 @@ exports.create_roby= function(req, res){
   });
 };
 
-exports.room= function(req, res){
-  redis.lrange("room:" + req.params.id, 0, -1,function(err, chat){
-    res.render('room', { title: "chat_room",
-                         chat: chat });
-  });
-};
+//exports.room= function(req, res){
+  //redis.lrange("room:" + req.params.id, 0, -1,function(err, chat){
+    //res.render('room', { title: "chat_room",
+                         //chat: chat });
+  //});
+//};
 
 exports.create_room= function(req, res){
   (req.session.name === undefined) ? name = '増田' : name = req.session.name;
-  if (req.body.chat === "") return false;
+  if (req.body.chat === null) return false;
   redis.rpush("room:" + req.session.room, name + ":" + req.body.chat);
   res.redirect('/room/' + req.session.room);
 };
