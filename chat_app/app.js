@@ -11,10 +11,6 @@ var express = require('express'),
 //socket.io
 var app = module.exports = express.createServer(),
     io  = require('socket.io').listen(app);
-//http://d.hatena.ne.jp/Jxck/20110730/1312042603
-//http://d.hatena.ne.jp/Jxck/20110809/1312847290
-//http://iamtherockstar.com/blog/2012/02/14/nodejs-and-socketio-authentication-all-way-down/
-//http://jsondata.tumblr.com/post/18513328466/jordanrift
 
 var parseCookie = require('connect').utils.parseCookie;
 var RedisStore = require('connect-redis')(express);
